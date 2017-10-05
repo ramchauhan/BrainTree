@@ -1,0 +1,30 @@
+{% extends 'layout.html' %}
+{% block content %}
+
+<div class="wrapper">
+   <div class="checkout container">
+       <header>
+           <h1> Add New Card</h1>
+           {% if payment_method_nonce %}
+	       <p> Generated Nonce Is: {{ payment_method_nonce }}</p>
+           {% endif %}
+       </header><br><br>
+       <form id="checkout" method="post">
+          {% csrf_token %}
+          <div id="payment-form"></div>
+          <button class="button" type="submit">
+              <span>Add Card</span>
+          </button>
+       </form>
+   </div>
+</div>
+
+<script src="https://js.braintreegateway.com/js/braintree-2.32.1.min.js"></script>
+<script>
+    var client_token = '{{ client_token }}';
+    braintree.setup(client_token, "dropin", {
+       container: "payment-form"
+    });
+</script>
+
+{% endblock %}
